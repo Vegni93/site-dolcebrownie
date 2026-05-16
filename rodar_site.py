@@ -20,19 +20,16 @@ html_content = """<!DOCTYPE html>
 
     <div id="toast-container"></div>
 
-    <div id="auth-overlay">
+    <div id="checkout-overlay">
         <div class="auth-modal">
-            <h2 id="auth-title">Criar Conta</h2>
-            <p id="auth-subtitle">Para acessar nossas delícias, crie sua conta.</p>
+            <h2>Quase lá!</h2>
+            <p>Para enviarmos o seu pedido, como podemos chamar você?</p>
             
-            <form id="auth-form" onsubmit="handleAuth(event)">
-                <input type="text" id="auth-nome" placeholder="Seu Nome Completo" required>
-                <input type="email" id="auth-email" placeholder="Seu E-mail" required>
-                <input type="password" id="auth-senha" placeholder="Crie uma Senha" required>
-                <button type="submit" class="auth-submit-btn">Cadastrar e Entrar</button>
+            <form id="checkout-form" onsubmit="confirmarNomeEEnviar(event)">
+                <input type="text" id="checkout-nome" placeholder="Seu Nome Completo" required>
+                <button type="submit" class="auth-submit-btn">Ir para o WhatsApp 🚀</button>
+                <button type="button" class="close-modal-btn" onclick="fecharModalCheckout()">Voltar ao cardápio</button>
             </form>
-            
-            <p class="auth-switch">Já tem conta? <span onclick="toggleAuthMode()">Faça Login</span></p>
         </div>
     </div>
 
@@ -41,7 +38,6 @@ html_content = """<!DOCTYPE html>
             <h1>Dolce brownie</h1>
             <h2>CONFEITARIA ARTESANAL</h2>
             <p class="minimal-slogan">"Detalhes que Encantam"</p>
-            <div id="user-greeting" style="display:none; margin-top: 15px; font-family: var(--font-body); font-size: 0.9rem; color: #f0c9cb;"></div>
         </div>
     </header>
 
@@ -53,7 +49,6 @@ html_content = """<!DOCTYPE html>
             <button class="nav-btn" onclick="alternarAba('eventos')">Edições Especiais</button>
             <button class="nav-btn" onclick="alternarAba('feedbacks')">Feedbacks</button>
             <button class="nav-btn" onclick="alternarAba('sobre')">Sobre Nós</button>
-            <button class="nav-btn" onclick="fazerLogout()" style="color: #ff9999;">Sair</button>
         </div>
     </nav>
 
@@ -63,7 +58,7 @@ html_content = """<!DOCTYPE html>
 
     <main class="content-wrapper">
 
-        <section id="aba-home" class="tab-section active" data-emoji="🧑‍🍳" data-boas-vindas="Olá! Que bom que você fez sua conta! Lembre-se que trabalhamos com retirada agendada! 🍫✨">
+        <section id="aba-home" class="tab-section active" data-emoji="🧑‍🍳" data-boas-vindas="Olá! Seja muito bem-vindo(a)! Fique à vontade para babar no nosso cardápio! 🍫✨">
             <div class="clean-hero">
                 <h3>A Experiência Definitiva em Brownies</h3>
                 <p class="hero-subtitle">Casquinha crocante, interior cremoso e ingredientes premium. A alta confeitaria pronta para o seu dia a dia ou para sua festa.</p>
@@ -499,41 +494,37 @@ html_content = """<!DOCTYPE html>
                     <div class="about-slide active" id="slide-0">
                         <h3>🌱 De onde viemos</h3>
                         <p><strong>Quem Somos:</strong> A Dolce Brownie é uma confeitaria artesanal focada inteiramente em criar a experiência definitiva em chocolates e doces premium.</p>
-                        <p><strong>Como a empresa surgiu:</strong> Nascemos em uma pequena cozinha caseira, movidos pela vontade de criar a receita perfeita. Testamos dezenas de tipos de cacau e tempos de forno até encontrar o equilíbrio entre a famosa casquinha crocante e o interior denso que derrete na boca. O que começou como uma forma carinhosa de presentear amigos, logo chamou a atenção e se transformou em nossa verdadeira paixão profissional.</p>
+                        <p><strong>Como a empresa surgiu:</strong> Nascemos em uma pequena cozinha caseira, movidos pela vontade de criar a receita perfeita. Testamos dezenas de tipos de cacau e tempos de forno até encontrar o equilíbrio entre a famosa casquinha crocante e o interior denso que derrete na boca.</p>
                     </div>
 
                     <div class="about-slide" id="slide-1">
                         <h3>🎯 Nosso Propósito e Foco</h3>
-                        <p><strong>Missão e Objetivo:</strong> Acreditamos que um doce não é apenas açúcar; é um abraço em forma de comida. Nossa missão é entregar em cada mordida uma experiência sensorial única, adoçando a rotina e marcando grandes eventos.</p>
-                        <p><strong>Público-alvo:</strong> Apaixonados por chocolate, organizadores de festas, noivos em busca de lembrancinhas perfeitas e qualquer pessoa que não abra mão de ingredientes de alta qualidade em seus momentos de lazer.</p>
-                        <p><strong>O significado de "Detalhes que Encantam":</strong> Nosso slogan resume nossa filosofia. A mágica da Dolce Brownie não está apenas no sabor, mas em cada detalhe: a fita da embalagem, o papel de seda, o aroma fresco e o atendimento próximo.</p>
+                        <p><strong>Missão e Objetivo:</strong> Acreditamos que um doce não é apenas açúcar; é um abraço em forma de comida. Nossa missão é entregar em cada mordida uma experiência sensorial única.</p>
+                        <p><strong>Público-alvo:</strong> Apaixonados por chocolate, organizadores de festas, noivos em busca de lembrancinhas perfeitas e pessoas que valorizam qualidade.</p>
                     </div>
 
                     <div class="about-slide" id="slide-2">
                         <h3>🍫 O Que Sai do Nosso Forno</h3>
-                        <p><strong>O que vendemos & Explicação dos produtos:</strong> Somos especialistas em brownies! Vendemos nossa <em>Linha Tradicional</em> (o clássico atemporal) e a <em>Linha Recheada</em> (com coberturas e recheios intensos). Nossos formatos vão desde porções individuais até Mega Boxes com 50 unidades, ideais para festas. E claro, lançamos linhas temáticas sazonais como as amadas coleções de Dia dos Namorados e Copa.</p>
-                        <p><strong>Diferenciais da Empresa:</strong> Não utilizamos atalhos. Nosso maior diferencial é a pureza dos ingredientes: usamos cacau nobre e manteiga de verdade, sem uso de conservantes artificiais. O assamento é milimetricamente calculado para manter a textura perfeita, e todos os doces são entregues frescos.</p>
+                        <p><strong>Nossos Produtos:</strong> Somos especialistas em brownies! Temos nossa <em>Linha Tradicional</em> e a <em>Linha Recheada</em>. Nossos formatos vão desde porções individuais até Mega Boxes para festas, além de edições temáticas.</p>
+                        <p><strong>Diferenciais:</strong> Pureza dos ingredientes: cacau nobre, manteiga de verdade, sem conservantes artificiais e sempre entregues frescos.</p>
                     </div>
 
                     <div class="about-slide" id="slide-3">
                         <h3>🧑‍🍳 O Dono da Cozinha</h3>
-                        <p><strong>Quem é ele?</strong> Você já deve ter notado nosso Chef tagarela (o emoji 🧑‍🍳) flutuando no canto da tela enquanto você escolhe seus doces!</p>
-                        <p><strong>O Significado:</strong> Ele representa a alma da nossa equipe e do nosso atendimento. Ele é descontraído, acolhedor e fala a verdade de forma leve (ele adora zoar seus pedidos no carrinho!). O mascote existe para lembrar que, por trás deste site, existem seres humanos dedicados e felizes fazendo a comida que vai chegar até você.</p>
+                        <p><strong>Quem é ele?</strong> Você já deve ter notado nosso Chef tagarela flutuando no canto da tela enquanto você escolhe seus doces!</p>
+                        <p><strong>O Significado:</strong> Ele representa a alma do nosso atendimento humanizado, descontraído e verdadeiro.</p>
                     </div>
 
                     <div class="about-slide" id="slide-4">
                         <h3>💳 Atendimento e Pagamentos</h3>
-                        <p><strong>Plataformas de Atendimento:</strong> Todo o nosso contato para finalização de orçamentos, pedidos especiais e acompanhamento das encomendas é centralizado via <strong>WhatsApp</strong>. Essa foi a forma que encontramos para garantir um atendimento rápido, humano e sem burocracias.</p>
-                        <p><strong>Formas de Pagamento:</strong> Buscamos máxima facilidade para você. Aceitamos:<br>
-                        • <strong>Pix</strong> (nossa modalidade preferida pela agilidade).<br>
-                        • <strong>Cartões de Crédito e Débito</strong>.<br>
-                        • <strong>Dinheiro em espécie</strong> (pago diretamente no momento da retirada).</p>
+                        <p><strong>Atendimento:</strong> Todo contato e encomenda é centralizado via <strong>WhatsApp</strong>, garantindo agilidade e proximidade com você.</p>
+                        <p><strong>Formas de Pagamento:</strong> Aceitamos Pix, Cartões de Crédito/Débito e Dinheiro no momento da retirada.</p>
                     </div>
 
                     <div class="about-slide" id="slide-5">
                         <h3>💖 Muito Obrigado!</h3>
-                        <p>Construir a Dolce Brownie exigiu centenas de testes, noites em claro e fornalhas cheias. Mas tudo isso ganha sentido quando vemos o seu sorriso na hora da retirada e as mensagens maravilhosas que recebemos pós-festa.</p>
-                        <p><strong>Encerramento:</strong> Agradecemos do fundo do coração por apoiar o nosso trabalho artesanal. Cada caixa que sai daqui é um pedaço do nosso sonho. Volte sempre, a nossa cozinha estará sempre de portas abertas (e fornos aquecidos) para você!</p>
+                        <p>Construir a Dolce Brownie exigiu muita dedicação. Mas tudo ganha sentido com o seu sorriso na retirada.</p>
+                        <p><strong>Encerramento:</strong> Agradecemos por apoiar nosso trabalho artesanal. Nossa cozinha estará sempre de portas abertas!</p>
                     </div>
                 </div>
             </div>
@@ -542,7 +533,7 @@ html_content = """<!DOCTYPE html>
     </main>
 
     <div id="mascote-container">
-        <div id="balao-fala">Faça login para acessar! 🍫✨</div>
+        <div id="balao-fala">Olá! Seja muito bem-vindo(a)! Fique à vontade para babar no nosso cardápio! 🍫✨</div>
         <div id="mascote-wrapper">
             <div id="mascote-emoji">🧑‍🍳</div>
         </div>
@@ -563,17 +554,18 @@ css_content = """
 body { font-family: var(--font-body); background-color: var(--rosa-light); color: var(--marrom-texto); overflow-x: hidden; }
 h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep); }
 
-/* --- AUTENTICAÇÃO OBRIGATÓRIA --- */
-#auth-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(90, 30, 36, 0.95); z-index: 10000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); transition: opacity 0.5s ease; }
-.auth-modal { background: var(--branco-card); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+/* --- MODAL CHECKOUT OBRIGATÓRIO NO FINAL --- */
+#checkout-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(90, 30, 36, 0.95); z-index: 10000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+.auth-modal { background: var(--branco-card); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.3); animation: slideInModal 0.3s ease; }
+@keyframes slideInModal { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .auth-modal h2 { margin-bottom: 10px; font-size: 2rem; }
-.auth-modal p { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
+.auth-modal p { color: #666; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.4; }
 .auth-modal input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; font-family: var(--font-body); font-size: 1rem; outline: none; transition: border 0.3s; }
 .auth-modal input:focus { border-color: var(--vinho-deep); }
 .auth-submit-btn { width: 100%; background: var(--vinho-deep); color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; }
 .auth-submit-btn:hover { background: #4A171D; }
-.auth-switch { margin-top: 20px; font-size: 0.85rem !important; }
-.auth-switch span { color: var(--vinho-deep); font-weight: bold; cursor: pointer; text-decoration: underline; }
+.close-modal-btn { background: transparent; color: #888; border: none; margin-top: 15px; cursor: pointer; font-family: var(--font-body); text-decoration: underline; font-size: 0.9rem; }
+.close-modal-btn:hover { color: var(--vinho-deep); }
 
 .main-header { background-color: var(--vinho-deep); color: var(--rosa-light); text-align: center; padding: 50px 20px; }
 .main-header h1 { font-size: 3.5rem; font-weight: 800; color: var(--rosa-light); margin-bottom: 5px; }
@@ -618,13 +610,12 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .recheado-border { border-color: #b08d57; }
 .promo-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 
-/* Badges de Economia */
 .economia-badge { background: #25d366; color: white; display: inline-block; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; width: fit-content; }
 .badge-pequeno { font-size: 0.75rem; padding: 3px 8px; margin: 5px 0 10px 0; background: #20b558; } 
 .pulse-badge { animation: pulse 2s infinite; background: #e63946; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* Carrinho com Controles */
+/* Carrinho */
 .cart-sidebar { background: var(--branco-card); border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: var(--shadow-soft); height: fit-content; }
 .cart-item-row { display: flex; flex-direction: column; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 15px; }
 .cart-item-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
@@ -638,7 +629,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .checkout-btn { background-color: #25d366; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; transition: background 0.3s; }
 .checkout-btn:hover { background-color: #1ebc5a; }
 
-/* FEEDBACKS (NOVO) */
+/* FEEDBACKS */
 .feedback-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px; }
 .feedback-form-box { background: var(--branco-card); padding: 40px; border-radius: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--borda-elegante); }
 .feedback-form-box h3 { margin-bottom: 20px; font-size: 1.5rem; color: var(--vinho-deep); }
@@ -652,7 +643,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .feed-author { font-weight: bold; color: var(--vinho-deep); font-size: 0.9rem; }
 @media (max-width: 768px) { .feedback-container { grid-template-columns: 1fr; } }
 
-/* Sobre Nós Complexo - Expandido */
+/* Sobre Nós */
 .about-complex-container { display: flex; background: var(--branco-card); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); min-height: 420px; margin-top: 30px;}
 .about-sidebar { width: 280px; background: var(--vinho-deep); display: flex; flex-direction: column; }
 .about-tab-btn { background: transparent; color: rgba(255,255,255,0.7); border: none; padding: 18px 20px; text-align: left; font-size: 1rem; font-family: var(--font-heading); cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -665,7 +656,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .about-slide p { line-height: 1.8; color: #555; font-size: 1.05rem; margin-bottom: 15px; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Widget Emoji Animado */
+/* Widget Mascote */
 #mascote-container { position: fixed; bottom: 30px; left: 40px; display: flex; flex-direction: column-reverse; align-items: flex-start; z-index: 1000; pointer-events: none; }
 #mascote-container * { pointer-events: auto; }
 #balao-fala { background-color: var(--vinho-deep); color: white; padding: 16px 20px; border-radius: 16px; margin-bottom: 15px; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 280px; transition: all 0.3s ease; }
@@ -684,58 +675,9 @@ js_content = """
 let emojiAtualDefault = "🧑‍🍳";
 const numeroWhats = "555191156047"; 
 
-// --- SISTEMA DE AUTENTICAÇÃO ---
-let isLoginMode = false;
-let currentUser = null;
+// --- NOVO SISTEMA: SEM LOGIN INICIAL ---
+let nomeCliente = "";
 
-window.onload = function() {
-    const userSaved = localStorage.getItem('dolceUser');
-    if(userSaved) {
-        currentUser = JSON.parse(userSaved);
-        liberarAcesso();
-    }
-};
-
-function toggleAuthMode() {
-    isLoginMode = !isLoginMode;
-    document.getElementById('auth-title').innerText = isLoginMode ? "Fazer Login" : "Criar Conta";
-    document.getElementById('auth-subtitle').innerText = isLoginMode ? "Bem-vindo de volta!" : "Para acessar nossas delícias, crie sua conta.";
-    document.getElementById('auth-nome').style.display = isLoginMode ? "none" : "block";
-    if(isLoginMode) document.getElementById('auth-nome').removeAttribute("required");
-    else document.getElementById('auth-nome').setAttribute("required", "true");
-    
-    document.querySelector('.auth-submit-btn').innerText = isLoginMode ? "Entrar" : "Cadastrar e Entrar";
-    document.querySelector('.auth-switch').innerHTML = isLoginMode ? "Não tem conta? <span onclick='toggleAuthMode()'>Cadastre-se</span>" : "Já tem conta? <span onclick='toggleAuthMode()'>Faça Login</span>";
-}
-
-function handleAuth(e) {
-    e.preventDefault();
-    const email = document.getElementById('auth-email').value;
-    const nome = isLoginMode ? email.split('@')[0] : document.getElementById('auth-nome').value; 
-    
-    currentUser = { nome: nome, email: email };
-    localStorage.setItem('dolceUser', JSON.stringify(currentUser));
-    liberarAcesso();
-}
-
-function liberarAcesso() {
-    document.getElementById('auth-overlay').style.opacity = "0";
-    setTimeout(() => { document.getElementById('auth-overlay').style.display = "none"; }, 500);
-    document.getElementById('user-greeting').innerText = `Olá, ${currentUser.nome}!`;
-    document.getElementById('user-greeting').style.display = "block";
-    document.getElementById('balao-fala').innerHTML = `Que bom ter você aqui, ${currentUser.nome}! Lembre-se que a retirada é agendada! 🍫✨`;
-    
-    // Preenche o nome no form de feedback
-    const feedNome = document.getElementById('feed-nome');
-    if(feedNome) feedNome.value = currentUser.nome;
-}
-
-function fazerLogout() {
-    localStorage.removeItem('dolceUser');
-    location.reload();
-}
-
-// --- NAVEGAÇÃO E MASCOTE ---
 function alternarAba(nomeAba) {
     document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -782,7 +724,6 @@ function mascoteResetaHover() {
     document.getElementById('balao-fala').innerHTML = document.querySelector('.tab-section.active').getAttribute('data-boas-vindas');
 }
 
-// --- SISTEMA DE FEEDBACKS ---
 function enviarFeedback(e) {
     e.preventDefault();
     const nome = document.getElementById('feed-nome').value;
@@ -801,16 +742,13 @@ function enviarFeedback(e) {
         <span class="feed-author">- ${nome}</span>
     `;
     
-    // Adiciona o novo comentário no topo
     mural.insertBefore(novoCard, mural.firstChild);
     
-    // Limpa os campos (mantém o nome)
     document.getElementById('feed-nota').value = "";
     document.getElementById('feed-mensagem').value = "";
     
     showToast("Feedback enviado com sucesso! Muito obrigado! ❤️");
     
-    // Reação do Mascote
     const el = document.getElementById('mascote-emoji');
     el.innerText = "🥰";
     el.classList.add('emoji-explodindo');
@@ -821,8 +759,7 @@ function enviarFeedback(e) {
     }, 3500);
 }
 
-
-// --- CARRINHO AVANÇADO ---
+// --- CARRINHO E CHECKOUT INTELIGENTE ---
 let carrinho = {};
 
 function adicionarAoCarrinho(nome, preco, silent = false) {
@@ -891,9 +828,32 @@ function atualizarCarrinho() {
     totaisDisplays.forEach(td => td.innerText = `R$ ${total.toFixed(2)}`);
 }
 
+function fecharModalCheckout() {
+    document.getElementById('checkout-overlay').style.display = 'none';
+}
+
+function confirmarNomeEEnviar(e) {
+    e.preventDefault();
+    nomeCliente = document.getElementById('checkout-nome').value;
+    fecharModalCheckout();
+    enviarParaOWhatsApp();
+}
+
 function finalizarPedidoWhatsApp() {
     if(Object.keys(carrinho).length === 0) return alert("Seu carrinho está vazio!");
-    let txt = `*Novo Pedido | Dolce Brownie*\\n*Cliente:* ${currentUser ? currentUser.nome : 'Não identificado'}\\n\\n`;
+    
+    // Se ainda não temos o nome da pessoa, abrimos o Modal
+    if(!nomeCliente) {
+        document.getElementById('checkout-overlay').style.display = 'flex';
+        return;
+    }
+    
+    // Se já sabemos o nome, enviamos direto
+    enviarParaOWhatsApp();
+}
+
+function enviarParaOWhatsApp() {
+    let txt = `*Novo Pedido | Dolce Brownie*\\n*Cliente:* ${nomeCliente}\\n\\n`;
     let total = 0;
     for(let item in carrinho) {
         let sub = carrinho[item].preco * carrinho[item].qtd; total += sub;
@@ -913,5 +873,5 @@ Handler = http.server.SimpleHTTPRequestHandler
 def open_browser(): webbrowser.open(f"http://localhost:{PORT}")
 Timer(1.5, open_browser).start()
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("-> Portal atualizado: Aba de Feedbacks adicionada e WhatsApp garantido no número +55 51 9115-6047!")
+    print("-> Portal atualizado: Barreira de login removida! Cliente compra livremente e só diz o nome no final.")
     httpd.serve_forever()
