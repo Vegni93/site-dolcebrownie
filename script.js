@@ -2,58 +2,8 @@
 let emojiAtualDefault = "🧑‍🍳";
 const numeroWhats = "555191156047"; 
 
-// --- SISTEMA DE AUTENTICAÇÃO ---
-let isLoginMode = false;
-let currentUser = null;
+let nomeCliente = "";
 
-window.onload = function() {
-    const userSaved = localStorage.getItem('dolceUser');
-    if(userSaved) {
-        currentUser = JSON.parse(userSaved);
-        liberarAcesso();
-    }
-};
-
-function toggleAuthMode() {
-    isLoginMode = !isLoginMode;
-    document.getElementById('auth-title').innerText = isLoginMode ? "Fazer Login" : "Criar Conta";
-    document.getElementById('auth-subtitle').innerText = isLoginMode ? "Bem-vindo de volta!" : "Para acessar nossas delícias, crie sua conta.";
-    document.getElementById('auth-nome').style.display = isLoginMode ? "none" : "block";
-    if(isLoginMode) document.getElementById('auth-nome').removeAttribute("required");
-    else document.getElementById('auth-nome').setAttribute("required", "true");
-    
-    document.querySelector('.auth-submit-btn').innerText = isLoginMode ? "Entrar" : "Cadastrar e Entrar";
-    document.querySelector('.auth-switch').innerHTML = isLoginMode ? "Não tem conta? <span onclick='toggleAuthMode()'>Cadastre-se</span>" : "Já tem conta? <span onclick='toggleAuthMode()'>Faça Login</span>";
-}
-
-function handleAuth(e) {
-    e.preventDefault();
-    const email = document.getElementById('auth-email').value;
-    const nome = isLoginMode ? email.split('@')[0] : document.getElementById('auth-nome').value; 
-    
-    currentUser = { nome: nome, email: email };
-    localStorage.setItem('dolceUser', JSON.stringify(currentUser));
-    liberarAcesso();
-}
-
-function liberarAcesso() {
-    document.getElementById('auth-overlay').style.opacity = "0";
-    setTimeout(() => { document.getElementById('auth-overlay').style.display = "none"; }, 500);
-    document.getElementById('user-greeting').innerText = `Olá, ${currentUser.nome}!`;
-    document.getElementById('user-greeting').style.display = "block";
-    document.getElementById('balao-fala').innerHTML = `Que bom ter você aqui, ${currentUser.nome}! Lembre-se que a retirada é agendada! 🍫✨`;
-    
-    // Preenche o nome no form de feedback
-    const feedNome = document.getElementById('feed-nome');
-    if(feedNome) feedNome.value = currentUser.nome;
-}
-
-function fazerLogout() {
-    localStorage.removeItem('dolceUser');
-    location.reload();
-}
-
-// --- NAVEGAÇÃO E MASCOTE ---
 function alternarAba(nomeAba) {
     document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -100,7 +50,6 @@ function mascoteResetaHover() {
     document.getElementById('balao-fala').innerHTML = document.querySelector('.tab-section.active').getAttribute('data-boas-vindas');
 }
 
-// --- SISTEMA DE FEEDBACKS ---
 function enviarFeedback(e) {
     e.preventDefault();
     const nome = document.getElementById('feed-nome').value;
@@ -119,16 +68,13 @@ function enviarFeedback(e) {
         <span class="feed-author">- ${nome}</span>
     `;
     
-    // Adiciona o novo comentário no topo
     mural.insertBefore(novoCard, mural.firstChild);
     
-    // Limpa os campos (mantém o nome)
     document.getElementById('feed-nota').value = "";
     document.getElementById('feed-mensagem').value = "";
     
     showToast("Feedback enviado com sucesso! Muito obrigado! ❤️");
     
-    // Reação do Mascote
     const el = document.getElementById('mascote-emoji');
     el.innerText = "🥰";
     el.classList.add('emoji-explodindo');
@@ -139,8 +85,7 @@ function enviarFeedback(e) {
     }, 3500);
 }
 
-
-// --- CARRINHO AVANÇADO ---
+// --- CARRINHO ---
 let carrinho = {};
 
 function adicionarAoCarrinho(nome, preco, silent = false) {
@@ -209,9 +154,30 @@ function atualizarCarrinho() {
     totaisDisplays.forEach(td => td.innerText = `R$ ${total.toFixed(2)}`);
 }
 
+function fecharModalCheckout() {
+    document.getElementById('checkout-overlay').style.display = 'none';
+}
+
+function confirmarNomeEEnviar(e) {
+    e.preventDefault();
+    nomeCliente = document.getElementById('checkout-nome').value;
+    fecharModalCheckout();
+    enviarParaOWhatsApp();
+}
+
 function finalizarPedidoWhatsApp() {
     if(Object.keys(carrinho).length === 0) return alert("Seu carrinho está vazio!");
-    let txt = `*Novo Pedido | Dolce Brownie*\n*Cliente:* ${currentUser ? currentUser.nome : 'Não identificado'}\n\n`;
+    
+    if(!nomeCliente) {
+        document.getElementById('checkout-overlay').style.display = 'flex';
+        return;
+    }
+    
+    enviarParaOWhatsApp();
+}
+
+function enviarParaOWhatsApp() {
+    let txt = `*Novo Pedido | Dolce Brownie*\n*Cliente:* ${nomeCliente}\n\n`;
     let total = 0;
     for(let item in carrinho) {
         let sub = carrinho[item].preco * carrinho[item].qtd; total += sub;

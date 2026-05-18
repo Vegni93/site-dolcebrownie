@@ -8,17 +8,18 @@
 body { font-family: var(--font-body); background-color: var(--rosa-light); color: var(--marrom-texto); overflow-x: hidden; }
 h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep); }
 
-/* --- AUTENTICAÇÃO OBRIGATÓRIA --- */
-#auth-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(90, 30, 36, 0.95); z-index: 10000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); transition: opacity 0.5s ease; }
-.auth-modal { background: var(--branco-card); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+/* --- MODAL CHECKOUT OBRIGATÓRIO NO FINAL --- */
+#checkout-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(90, 30, 36, 0.95); z-index: 10000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+.auth-modal { background: var(--branco-card); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.3); animation: slideInModal 0.3s ease; }
+@keyframes slideInModal { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .auth-modal h2 { margin-bottom: 10px; font-size: 2rem; }
-.auth-modal p { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
+.auth-modal p { color: #666; margin-bottom: 25px; font-size: 0.9rem; line-height: 1.4; }
 .auth-modal input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; font-family: var(--font-body); font-size: 1rem; outline: none; transition: border 0.3s; }
 .auth-modal input:focus { border-color: var(--vinho-deep); }
 .auth-submit-btn { width: 100%; background: var(--vinho-deep); color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; }
 .auth-submit-btn:hover { background: #4A171D; }
-.auth-switch { margin-top: 20px; font-size: 0.85rem !important; }
-.auth-switch span { color: var(--vinho-deep); font-weight: bold; cursor: pointer; text-decoration: underline; }
+.close-modal-btn { background: transparent; color: #888; border: none; margin-top: 15px; cursor: pointer; font-family: var(--font-body); text-decoration: underline; font-size: 0.9rem; }
+.close-modal-btn:hover { color: var(--vinho-deep); }
 
 .main-header { background-color: var(--vinho-deep); color: var(--rosa-light); text-align: center; padding: 50px 20px; }
 .main-header h1 { font-size: 3.5rem; font-weight: 800; color: var(--rosa-light); margin-bottom: 5px; }
@@ -69,7 +70,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .pulse-badge { animation: pulse 2s infinite; background: #e63946; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* Carrinho com Controles */
+/* Carrinho */
 .cart-sidebar { background: var(--branco-card); border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: var(--shadow-soft); height: fit-content; }
 .cart-item-row { display: flex; flex-direction: column; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 15px; }
 .cart-item-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
@@ -83,7 +84,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .checkout-btn { background-color: #25d366; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; transition: background 0.3s; }
 .checkout-btn:hover { background-color: #1ebc5a; }
 
-/* FEEDBACKS (NOVO) */
+/* FEEDBACKS */
 .feedback-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px; }
 .feedback-form-box { background: var(--branco-card); padding: 40px; border-radius: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--borda-elegante); }
 .feedback-form-box h3 { margin-bottom: 20px; font-size: 1.5rem; color: var(--vinho-deep); }
@@ -95,9 +96,27 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .feed-stars { font-size: 1.2rem; margin-bottom: 10px; }
 .feed-text { font-style: italic; color: #555; margin-bottom: 15px; line-height: 1.6; }
 .feed-author { font-weight: bold; color: var(--vinho-deep); font-size: 0.9rem; }
-@media (max-width: 768px) { .feedback-container { grid-template-columns: 1fr; } }
 
-/* Sobre Nós Complexo - Expandido */
+/* REGRAS RESPONSIVAS PARA CELULAR */
+@media (max-width: 768px) {
+    .shop-layout { grid-template-columns: 1fr; }
+    .cart-sidebar { position: static; margin-top: 20px; }
+    .home-floating-grid { flex-direction: column; }
+    .floating-box { width: 100%; }
+    .about-complex-container { flex-direction: column; }
+    .about-sidebar { width: 100%; flex-direction: row; overflow-x: auto; white-space: nowrap; padding: 10px; }
+    .about-tab-btn { padding: 12px 15px; border-left: none; border-bottom: 3px solid transparent; text-align: center; }
+    .about-tab-btn.active { border-left-color: transparent; border-bottom-color: var(--rosa-accent); }
+    .about-content-area { padding: 25px 20px; }
+    .main-header h1 { font-size: 2.5rem; }
+    .main-header { padding: 30px 20px; }
+    .feedback-container { grid-template-columns: 1fr; }
+    #mascote-container { left: 10px; bottom: 10px; }
+    #mascote-emoji { font-size: 3.5rem; }
+    #balao-fala { font-size: 0.8rem; padding: 10px 15px; max-width: 220px; }
+}
+
+/* Sobre Nós Complexo */
 .about-complex-container { display: flex; background: var(--branco-card); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); min-height: 420px; margin-top: 30px;}
 .about-sidebar { width: 280px; background: var(--vinho-deep); display: flex; flex-direction: column; }
 .about-tab-btn { background: transparent; color: rgba(255,255,255,0.7); border: none; padding: 18px 20px; text-align: left; font-size: 1rem; font-family: var(--font-heading); cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; border-bottom: 1px solid rgba(255,255,255,0.05); }

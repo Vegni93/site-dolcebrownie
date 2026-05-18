@@ -627,7 +627,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .pulse-badge { animation: pulse 2s infinite; background: #e63946; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* Carrinho com Controles */
+/* Carrinho */
 .cart-sidebar { background: var(--branco-card); border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: var(--shadow-soft); height: fit-content; }
 .cart-item-row { display: flex; flex-direction: column; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 15px; }
 .cart-item-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
@@ -653,7 +653,25 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .feed-stars { font-size: 1.2rem; margin-bottom: 10px; }
 .feed-text { font-style: italic; color: #555; margin-bottom: 15px; line-height: 1.6; }
 .feed-author { font-weight: bold; color: var(--vinho-deep); font-size: 0.9rem; }
-@media (max-width: 768px) { .feedback-container { grid-template-columns: 1fr; } }
+
+/* REGRAS RESPONSIVAS PARA CELULAR */
+@media (max-width: 768px) {
+    .shop-layout { grid-template-columns: 1fr; }
+    .cart-sidebar { position: static; margin-top: 20px; }
+    .home-floating-grid { flex-direction: column; }
+    .floating-box { width: 100%; }
+    .about-complex-container { flex-direction: column; }
+    .about-sidebar { width: 100%; flex-direction: row; overflow-x: auto; white-space: nowrap; padding: 10px; }
+    .about-tab-btn { padding: 12px 15px; border-left: none; border-bottom: 3px solid transparent; text-align: center; }
+    .about-tab-btn.active { border-left-color: transparent; border-bottom-color: var(--rosa-accent); }
+    .about-content-area { padding: 25px 20px; }
+    .main-header h1 { font-size: 2.5rem; }
+    .main-header { padding: 30px 20px; }
+    .feedback-container { grid-template-columns: 1fr; }
+    #mascote-container { left: 10px; bottom: 10px; }
+    #mascote-emoji { font-size: 3.5rem; }
+    #balao-fala { font-size: 0.8rem; padding: 10px 15px; max-width: 220px; }
+}
 
 /* Sobre Nós Complexo */
 .about-complex-container { display: flex; background: var(--branco-card); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); min-height: 420px; margin-top: 30px;}
@@ -882,5 +900,5 @@ Handler = http.server.SimpleHTTPRequestHandler
 def open_browser(): webbrowser.open(f"http://localhost:{PORT}")
 Timer(1.5, open_browser).start()
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("-> Portal atualizado: Texto dos Objetivos reduzido com sucesso!")
+    print("-> Portal atualizado: Agora 100% responsivo para celulares!")
     httpd.serve_forever()
