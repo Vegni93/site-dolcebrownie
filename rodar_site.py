@@ -20,10 +20,10 @@ html_content = """<!DOCTYPE html>
 
     <div id="toast-container"></div>
 
-    <div id="checkout-overlay">
+    <div id="checkout-overlay" style="display: none;">
         <div class="auth-modal">
-            <h2>Quase lá!</h2>
-            <p>Para enviarmos o seu pedido, como podemos chamar você?</p>
+            <h2 id="auth-title">Quase lá!</h2>
+            <p id="auth-subtitle">Para enviarmos o seu pedido, como podemos chamar você?</p>
             
             <form id="checkout-form" onsubmit="confirmarNomeEEnviar(event)">
                 <input type="text" id="checkout-nome" placeholder="Seu Nome Completo" required>
@@ -73,10 +73,10 @@ html_content = """<!DOCTYPE html>
             </div>
         </section>
 
-        <section id="aba-produtos" class="tab-section" data-emoji="🤤" data-boas-vindas="Escolha seus brownies avulsos aqui! Para combos maiores, vá na aba Promoções! 🤎">
+        <section id="aba-produtos" class="tab-section" data-emoji="🤤" data-boas-vindas="As opções avulsas e combos pequenos estão aqui. Leve mais e pague menos! 🤎">
             <div class="section-heading">
                 <h2>Cardápio Padrão</h2>
-                <p>Nossas receitas clássicas para adoçar o seu dia. Escolha 1, 2 ou 3 unidades.</p>
+                <p>Nossas receitas clássicas para adoçar o seu dia. Mais unidades = Mais economia.</p>
             </div>
 
             <div class="shop-layout">
@@ -88,8 +88,8 @@ html_content = """<!DOCTYPE html>
                             <span class="product-tag">Linha Tradicional</span>
                             <h4>Clássico (1 Unidade)</h4>
                             <div class="price-row">
-                                <span class="price-value">R$ 8,50</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Clássico (1 un)', 8.50)">+ Carrinho</button>
+                                <span class="price-value">R$ 7,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Clássico (1 un)', 7.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -99,10 +99,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag">Linha Tradicional</span>
                             <h4>Dueto Clássico (2 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize comprando direto na Promoção!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 0,50!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 17,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Clássico (2 un)', 17.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 13,50</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Clássico (2 un)', 13.50)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -112,10 +112,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag">Linha Tradicional</span>
                             <h4>Trio Clássico (3 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize comprando direto na Promoção!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 1,50!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 25,50</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Clássico (3 un)', 25.50)">+ Carrinho</button>
+                                <span class="price-value">R$ 19,50</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Clássico (3 un)', 19.50)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -126,8 +126,8 @@ html_content = """<!DOCTYPE html>
                             <span class="product-tag gold-tag">Linha Recheada</span>
                             <h4>Premium Recheado (1 Unidade)</h4>
                             <div class="price-row">
-                                <span class="price-value">R$ 11,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Premium Recheado (1 un)', 11.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 9,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Premium Recheado (1 un)', 9.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -137,10 +137,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag gold-tag">Linha Recheada</span>
                             <h4>Dueto Recheado (2 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize comprando direto na Promoção!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 22,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Recheado (2 un)', 22.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 17,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Recheado (2 un)', 17.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -150,10 +150,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag gold-tag">Linha Recheada</span>
                             <h4>Trio Recheado (3 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize comprando direto na Promoção!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 2,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 33,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Recheado (3 un)', 33.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 25,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Recheado (3 un)', 25.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -180,10 +180,10 @@ html_content = """<!DOCTYPE html>
                         <div class="promo-header">Linha Tradicional</div>
                         <div class="promo-body">
                             <h4>Box Família (5 un)</h4>
-                            <div class="economia-badge">Economize R$ 3,50!</div>
+                            <div class="economia-badge">Economize R$ 4,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 39,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Tradicional (5 un)', 39.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 31,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Tradicional (5 un)', 31.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -194,8 +194,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Box Galera (10 un)</h4>
                             <div class="economia-badge">Economize R$ 10,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 75,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Tradicional (10 un)', 75.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 60,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Tradicional (10 un)', 60.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -204,10 +204,10 @@ html_content = """<!DOCTYPE html>
                         <div class="promo-header">Linha Tradicional</div>
                         <div class="promo-body">
                             <h4>Box Eventos (20 un)</h4>
-                            <div class="economia-badge">Economize R$ 30,00!</div>
+                            <div class="economia-badge">Economize R$ 25,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 140,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Tradicional (20 un)', 140.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 115,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Tradicional (20 un)', 115.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -216,10 +216,10 @@ html_content = """<!DOCTYPE html>
                         <div class="promo-header mega-header">👑 FESTA (TRADICIONAL)</div>
                         <div class="promo-body">
                             <h4>Mega Box Festa (50 un)</h4>
-                            <div class="economia-badge pulse-badge">Economize R$ 105,00!</div>
+                            <div class="economia-badge pulse-badge">Economize R$ 85,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 320,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Tradicional (50 un)', 320.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 265,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Tradicional (50 un)', 265.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -230,8 +230,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Box Família Recheado (5 un)</h4>
                             <div class="economia-badge">Economize R$ 5,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 50,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Recheado (5 un)', 50.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 40,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Recheado (5 un)', 40.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -242,8 +242,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Box Galera Recheado (10 un)</h4>
                             <div class="economia-badge">Economize R$ 15,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 95,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Recheado (10 un)', 95.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 75,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Recheado (10 un)', 75.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -254,8 +254,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Box Eventos Recheado (20 un)</h4>
                             <div class="economia-badge">Economize R$ 40,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 180,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Recheado (20 un)', 180.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 140,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Recheado (20 un)', 140.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -264,10 +264,10 @@ html_content = """<!DOCTYPE html>
                         <div class="promo-header mega-header recheado-header">👑 FESTA (RECHEADO)</div>
                         <div class="promo-body">
                             <h4>Mega Box Festa Recheado (50 un)</h4>
-                            <div class="economia-badge pulse-badge">Economize R$ 130,00!</div>
+                            <div class="economia-badge pulse-badge">Economize R$ 120,00!</div>
                             <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 420,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Recheado (50 un)', 420.00)">+ Carrinho</button>
+                                <div class="price-col"><span class="price-value">R$ 330,00</span></div>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Recheado (50 un)', 330.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -294,8 +294,8 @@ html_content = """<!DOCTYPE html>
                             <span class="product-tag love-tag">Namorados (1 un)</span>
                             <h4>Amor Individual</h4>
                             <div class="price-row">
-                                <span class="price-value">R$ 10,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Individual (1un)', 10.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 8,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Individual (1un)', 8.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -307,8 +307,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Dueto Apaixonado</h4>
                             <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 19,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Dueto (2un)', 19.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 15,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Dueto (2un)', 15.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -318,10 +318,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag love-tag">Namorados (5 un)</span>
                             <h4>Bouquet de Brownies</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 5,00!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 4,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 45,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Bouquet (5un)', 45.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 36,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Bouquet (5un)', 36.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -331,10 +331,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag love-tag">Namorados (10 un)</span>
                             <h4>Caixa Romântica</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 15,00!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 12,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 85,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Caixa (10un)', 85.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 68,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Caixa (10un)', 68.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -344,10 +344,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag love-tag">Namorados (20 un)</span>
                             <h4>Festa dos Apaixonados</h4>
-                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 40,00!</div>
+                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 30,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 160,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Festa (20un)', 160.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 130,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Festa (20un)', 130.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -358,8 +358,8 @@ html_content = """<!DOCTYPE html>
                             <span class="product-tag cup-tag">Copa (1 un)</span>
                             <h4>Chocogol Canarinho</h4>
                             <div class="price-row">
-                                <span class="price-value">R$ 10,50</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Canarinho (1un)', 10.50)">+ Carrinho</button>
+                                <span class="price-value">R$ 8,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Canarinho (1un)', 8.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -371,8 +371,8 @@ html_content = """<!DOCTYPE html>
                             <h4>Dueto Torcida</h4>
                             <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 20,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Dueto (2un)', 20.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 15,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Dueto (2un)', 15.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -382,10 +382,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag cup-tag">Copa (5 un)</span>
                             <h4>Combo Goleada</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 5,50!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 4,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 47,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Goleada (5un)', 47.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 36,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Goleada (5un)', 36.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -395,10 +395,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag cup-tag">Copa (10 un)</span>
                             <h4>Caixa Artilheiro</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 15,00!</div>
+                            <div class="economia-badge badge-pequeno">Economize R$ 12,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 90,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Artilheiro (10un)', 90.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 68,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Artilheiro (10un)', 68.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -408,10 +408,10 @@ html_content = """<!DOCTYPE html>
                         <div class="menu-item-info">
                             <span class="product-tag cup-tag">Copa (20 un)</span>
                             <h4>Festa do Hexa</h4>
-                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 40,00!</div>
+                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 30,00!</div>
                             <div class="price-row">
-                                <span class="price-value">R$ 170,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Hexa (20un)', 170.00)">+ Carrinho</button>
+                                <span class="price-value">R$ 130,00</span>
+                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Hexa (20un)', 130.00)">+ Carrinho</button>
                             </div>
                         </div>
                     </article>
@@ -483,48 +483,59 @@ html_content = """<!DOCTYPE html>
             <div class="about-complex-container">
                 <div class="about-sidebar">
                     <button class="about-tab-btn active" onclick="mudarSlideSobre(0, this)">1. Nossa Origem</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(1, this)">2. Nosso Propósito</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(2, this)">3. O Cardápio</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(3, this)">4. O Mascote</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(4, this)">5. Como Comprar</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(5, this)">6. Gratidão</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(1, this)">2. Nossos Objetivos</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(2, this)">3. A Excelência</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(3, this)">4. O Cardápio</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(4, this)">5. O Mascote</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(5, this)">6. Como Comprar</button>
+                    <button class="about-tab-btn" onclick="mudarSlideSobre(6, this)">7. Gratidão</button>
                 </div>
                 
                 <div class="about-content-area">
                     <div class="about-slide active" id="slide-0">
                         <h3>🌱 De onde viemos</h3>
                         <p><strong>Quem Somos:</strong> A Dolce Brownie é uma confeitaria artesanal focada inteiramente em criar a experiência definitiva em chocolates e doces premium.</p>
-                        <p><strong>Como a empresa surgiu:</strong> Nascemos em uma pequena cozinha caseira, movidos pela vontade de criar a receita perfeita. Testamos dezenas de tipos de cacau e tempos de forno até encontrar o equilíbrio entre a famosa casquinha crocante e o interior denso que derrete na boca.</p>
+                        <p><strong>Como a empresa surgiu:</strong> A Dolce Brownie nasceu na cozinha de casa, quando cinco amigos começaram a testar receitas em busca do brownie perfeito. Depois de várias tentativas, encontramos a combinação ideal: casquinha crocante por fora e interior macio por dentro. O que começou como uma forma de presentear amigos logo virou nossa paixão e deu origem à marca, criada para levar sabor e carinho em cada brownie.</p>
                     </div>
 
                     <div class="about-slide" id="slide-1">
-                        <h3>🎯 Nosso Propósito e Foco</h3>
-                        <p><strong>Missão e Objetivo:</strong> Acreditamos que um doce não é apenas açúcar; é um abraço em forma de comida. Nossa missão é entregar em cada mordida uma experiência sensorial única.</p>
-                        <p><strong>Público-alvo:</strong> Apaixonados por chocolate, organizadores de festas, noivos em busca de lembrancinhas perfeitas e pessoas que valorizam qualidade.</p>
+                        <h3>🎯 Nossos Objetivos</h3>
+                        <p>A Dolce Brownie tem como principal objetivo oferecer brownies artesanais de alta qualidade, preparados com ingredientes selecionados, muito cuidado e dedicação em cada etapa da produção.</p>
+                        <p>A empresa busca proporcionar aos clientes uma experiência diferenciada através de produtos saborosos, criativos e feitos com carinho, capazes de transformar momentos simples do dia em ocasiões mais especiais e felizes.</p>
+                        <p>Além de prezar pela qualidade dos brownies, a Dolce Brownie também procura oferecer um atendimento acolhedor e de confiança, valorizando a satisfação dos clientes e buscando sempre atender às suas expectativas.</p>
                     </div>
 
                     <div class="about-slide" id="slide-2">
-                        <h3>🍫 O Que Sai do Nosso Forno</h3>
-                        <p><strong>Nossos Produtos:</strong> Somos especialistas em brownies! Temos nossa <em>Linha Tradicional</em> e a <em>Linha Recheada</em>. Nossos formatos vão desde porções individuais até Mega Boxes para festas, além de edições temáticas.</p>
-                        <p><strong>Diferenciais:</strong> Pureza dos ingredientes: cacau nobre, manteiga de verdade, sem conservantes artificiais e sempre entregues frescos.</p>
+                        <h3>✨ A Excelência nos Recheados</h3>
+                        <p>A Dolce Brownie destaca-se pela excelência na produção artesanal de brownies recheados, unindo qualidade, sabor e sofisticação em cada detalhe. Nosso compromisso é oferecer produtos elaborados com ingredientes selecionados, proporcionando uma experiência única e marcante aos clientes.</p>
+                        <p>Além do cuidado com o preparo, valorizamos a apresentação e a identidade da marca, transmitindo carinho, dedicação e autenticidade em cada produto. Dessa forma, buscamos transformar momentos simples em experiências especiais e memoráveis.</p>
                     </div>
 
                     <div class="about-slide" id="slide-3">
-                        <h3>🧑‍🍳 O Dono da Cozinha</h3>
-                        <p><strong>Quem é ele?</strong> Você já deve ter notado nosso Chef tagarela flutuando no canto da tela enquanto você escolhe seus doces!</p>
-                        <p><strong>O Significado:</strong> Ele representa a alma do nosso atendimento humanizado, descontraído e verdadeiro.</p>
+                        <h3>🍫 O Que Sai do Nosso Forno</h3>
+                        <p><strong>O que vendemos & Explicação dos produtos:</strong> Somos especialistas em brownies! Vendemos nossa <em>Linha Tradicional</em> (o clássico atemporal) e a <em>Linha Recheada</em> (com coberturas e recheios intensos). Nossos formatos vão desde porções individuais até Mega Boxes com 50 unidades, ideais para festas. E claro, lançamos linhas temáticas sazonais como as amadas coleções de Dia dos Namorados e Copa.</p>
+                        <p><strong>Diferenciais da Empresa:</strong> Não utilizamos atalhos. Nosso maior diferencial é a pureza dos ingredientes: usamos cacau nobre e manteiga de verdade, sem uso de conservantes artificiais. O assamento é milimetricamente calculado para manter a textura perfeita, e todos os doces são entregues frescos.</p>
                     </div>
 
                     <div class="about-slide" id="slide-4">
-                        <h3>💳 Atendimento e Pagamentos</h3>
-                        <p><strong>Atendimento:</strong> Todo contato e encomenda é centralizado via <strong>WhatsApp</strong>, garantindo agilidade e proximidade com você.</p>
-                        <p><strong>Formas de Pagamento:</strong> Aceitamos Pix, Cartões de Crédito/Débito e Dinheiro no momento da retirada.</p>
+                        <h3>🧑‍🍳 O Dono da Cozinha</h3>
+                        <p><strong>Quem é ele?</strong> Você já deve ter notado nosso Chef tagarela (o emoji 🧑‍🍳) flutuando no canto da tela enquanto você escolhe seus doces!</p>
+                        <p><strong>O Significado:</strong> Ele representa a alma da nossa equipe e do nosso atendimento. Ele é descontraído, acolhedor e fala a verdade de forma leve (ele adora zoar seus pedidos no carrinho!). O mascote existe para lembrar que, por trás deste site, existem seres humanos dedicados e felizes fazendo a comida que vai chegar até você.</p>
                     </div>
 
                     <div class="about-slide" id="slide-5">
+                        <h3>💳 Atendimento e Pagamentos</h3>
+                        <p><strong>Plataformas de Atendimento:</strong> Todo o nosso contato para finalização de orçamentos, pedidos especiais e acompanhamento das encomendas é centralizado via <strong>WhatsApp</strong>. Essa foi a forma que encontramos para garantir um atendimento rápido, humano e sem burocracias.</p>
+                        <p><strong>Formas de Pagamento:</strong> Buscamos máxima facilidade para você. Aceitamos:<br>
+                        • <strong>Pix</strong> (nossa modalidade preferida pela agilidade).<br>
+                        • <strong>Cartões de Crédito e Débito</strong>.<br>
+                        • <strong>Dinheiro em espécie</strong> (pago diretamente no momento da retirada).</p>
+                    </div>
+
+                    <div class="about-slide" id="slide-6">
                         <h3>💖 Muito Obrigado!</h3>
-                        <p>Construir a Dolce Brownie exigiu muita dedicação. Mas tudo ganha sentido com o seu sorriso na retirada.</p>
-                        <p><strong>Encerramento:</strong> Agradecemos por apoiar nosso trabalho artesanal. Nossa cozinha estará sempre de portas abertas!</p>
+                        <p>Construir a Dolce Brownie exigiu centenas de testes, noites em claro e fornalhas cheias. Mas tudo isso ganha sentido quando vemos o seu sorriso na hora da retirada e as mensagens maravilhosas que recebemos pós-festa.</p>
+                        <p><strong>Encerramento:</strong> Agradecemos do fundo do coração por apoiar o nosso trabalho artesanal. Cada caixa que sai daqui é um pedaço do nosso sonho. Volte sempre, a nossa cozinha estará sempre de portas abertas (e fornos aquecidos) para você!</p>
                     </div>
                 </div>
             </div>
@@ -610,12 +621,13 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .recheado-border { border-color: #b08d57; }
 .promo-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 
+/* Badges de Economia */
 .economia-badge { background: #25d366; color: white; display: inline-block; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; width: fit-content; }
 .badge-pequeno { font-size: 0.75rem; padding: 3px 8px; margin: 5px 0 10px 0; background: #20b558; } 
 .pulse-badge { animation: pulse 2s infinite; background: #e63946; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* Carrinho */
+/* Carrinho com Controles */
 .cart-sidebar { background: var(--branco-card); border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: var(--shadow-soft); height: fit-content; }
 .cart-item-row { display: flex; flex-direction: column; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 15px; }
 .cart-item-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
@@ -643,7 +655,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .feed-author { font-weight: bold; color: var(--vinho-deep); font-size: 0.9rem; }
 @media (max-width: 768px) { .feedback-container { grid-template-columns: 1fr; } }
 
-/* Sobre Nós */
+/* Sobre Nós Complexo */
 .about-complex-container { display: flex; background: var(--branco-card); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); min-height: 420px; margin-top: 30px;}
 .about-sidebar { width: 280px; background: var(--vinho-deep); display: flex; flex-direction: column; }
 .about-tab-btn { background: transparent; color: rgba(255,255,255,0.7); border: none; padding: 18px 20px; text-align: left; font-size: 1rem; font-family: var(--font-heading); cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -656,7 +668,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--vinho-deep);
 .about-slide p { line-height: 1.8; color: #555; font-size: 1.05rem; margin-bottom: 15px; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Widget Mascote */
+/* Widget Emoji Animado */
 #mascote-container { position: fixed; bottom: 30px; left: 40px; display: flex; flex-direction: column-reverse; align-items: flex-start; z-index: 1000; pointer-events: none; }
 #mascote-container * { pointer-events: auto; }
 #balao-fala { background-color: var(--vinho-deep); color: white; padding: 16px 20px; border-radius: 16px; margin-bottom: 15px; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 280px; transition: all 0.3s ease; }
@@ -675,7 +687,6 @@ js_content = """
 let emojiAtualDefault = "🧑‍🍳";
 const numeroWhats = "555191156047"; 
 
-// --- NOVO SISTEMA: SEM LOGIN INICIAL ---
 let nomeCliente = "";
 
 function alternarAba(nomeAba) {
@@ -759,7 +770,7 @@ function enviarFeedback(e) {
     }, 3500);
 }
 
-// --- CARRINHO E CHECKOUT INTELIGENTE ---
+// --- CARRINHO ---
 let carrinho = {};
 
 function adicionarAoCarrinho(nome, preco, silent = false) {
@@ -842,13 +853,11 @@ function confirmarNomeEEnviar(e) {
 function finalizarPedidoWhatsApp() {
     if(Object.keys(carrinho).length === 0) return alert("Seu carrinho está vazio!");
     
-    // Se ainda não temos o nome da pessoa, abrimos o Modal
     if(!nomeCliente) {
         document.getElementById('checkout-overlay').style.display = 'flex';
         return;
     }
     
-    // Se já sabemos o nome, enviamos direto
     enviarParaOWhatsApp();
 }
 
@@ -873,5 +882,5 @@ Handler = http.server.SimpleHTTPRequestHandler
 def open_browser(): webbrowser.open(f"http://localhost:{PORT}")
 Timer(1.5, open_browser).start()
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("-> Portal atualizado: Barreira de login removida! Cliente compra livremente e só diz o nome no final.")
+    print("-> Portal atualizado: Texto dos Objetivos reduzido com sucesso!")
     httpd.serve_forever()
