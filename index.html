@@ -3,533 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolce Brownie | Confeitaria Premium</title>
-    
+    <title>Dolce Brownie | Boutique Artesanal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,500;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- TOAST -->
     <div id="toast-container"></div>
 
+    <!-- CHECKOUT MODAL -->
     <div id="checkout-overlay" style="display: none;">
         <div class="auth-modal">
-            <h2 id="auth-title">Quase lá!</h2>
-            <p id="auth-subtitle">Para enviarmos o seu pedido, como podemos chamar você?</p>
-            
-            <form id="checkout-form" onsubmit="confirmarNomeEEnviar(event)">
-                <input type="text" id="checkout-nome" placeholder="Seu Nome Completo" required>
-                <button type="submit" class="auth-submit-btn">Ir para o WhatsApp 🚀</button>
-                <button type="button" class="close-modal-btn" onclick="fecharModalCheckout()">Voltar ao cardápio</button>
-            </form>
+
+            <div id="checkout-step-1" class="step-container">
+                <h2>Seja bem-vindo(a) ✨</h2>
+                <p>Para iniciarmos sua experiência, como prefere ser chamado(a)?</p>
+                <input type="text" id="checkout-nome" placeholder="Seu Nome Completo">
+                <button type="button" class="btn-premium" onclick="irParaOpcoes()">Avançar para pagamento →</button>
+                <button type="button" class="btn-link" onclick="fecharModalCheckout()">← Voltar ao cardápio</button>
+            </div>
+
+            <div id="checkout-step-2" class="step-container" style="display: none;">
+                <h2>Finalizar Pedido 🍫</h2>
+                <p>Valor Total: <strong id="valor-final-display" class="valor-vinho">R$ 0,00</strong></p>
+                <div class="pay-options">
+                    <button type="button" class="btn-premium pix-btn" onclick="mostrarQrCode()">Pagar via QR Code / Pix 📱</button>
+                    <button type="button" class="btn-premium whats-btn" onclick="confirmarEEnviar(event, 'whats')">Pedir pelo WhatsApp 🚀</button>
+                </div>
+                <button type="button" class="btn-link" onclick="voltarParaNome()">← Voltar</button>
+            </div>
+
+            <div id="checkout-step-3" class="step-container" style="display: none;">
+                <h2>Pagamento via Pix</h2>
+                <p>Total: <strong id="valor-final-pix-locked" class="valor-vinho">R$ 0,00</strong></p>
+                <div class="qr-box-premium">
+                    <img id="qr-code-estatico" src="qrcode.png" alt="QR Code Pix" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=5551991156047';">
+                    <p class="qr-hint">Abra o app do seu banco e escaneie</p>
+                    <div class="copy-paste-section">
+                        <label>Chave Pix (Celular):</label>
+                        <div class="input-copy-wrapper">
+                            <input type="text" id="pix-copia-cola" value="5551991156047" readonly>
+                            <button onclick="copiarPix()">Copiar</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-premium whats-btn" onclick="confirmarEEnviar(event, 'pix')">Já paguei! Enviar comprovante 🚀</button>
+                <button type="button" class="btn-link" onclick="voltarParaOpcoes()">← Voltar</button>
+            </div>
+
         </div>
     </div>
 
-    <header class="main-header">
-        <div class="header-container">
-            <h1>Dolce brownie</h1>
-            <h2>CONFEITARIA ARTESANAL</h2>
-            <p class="minimal-slogan">"Detalhes que Encantam"</p>
+    <!-- HEADER -->
+    <header class="luxury-header">
+        <div class="header-bg-deco"></div>
+        <div class="header-rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
         </div>
+        <div class="logo-area">
+            <div class="luxury-eyebrow">Boutique Artesanal</div>
+            <h1><em>Dolce</em> Brownie</h1>
+            <p class="tagline">A Arte da Alta Confeitaria</p>
+        </div>
+        <div class="header-bottom-line"></div>
     </header>
 
-    <nav class="navigation-bar">
-        <div class="nav-container">
-            <button class="nav-btn active" onclick="alternarAba('home')">Início</button>
-            <button class="nav-btn" onclick="alternarAba('produtos')">Cardápio</button>
-            <button class="nav-btn" onclick="alternarAba('promocoes')">Promoções & Festas</button>
-            <button class="nav-btn" onclick="alternarAba('eventos')">Edições Especiais</button>
-            <button class="nav-btn" onclick="alternarAba('feedbacks')">Feedbacks</button>
-            <button class="nav-btn" onclick="alternarAba('sobre')">Sobre Nós</button>
+    <!-- NAV -->
+    <nav class="glass-nav">
+        <div class="nav-inner">
+            <span class="nav-brand">Dolce Brownie</span>
+            <div class="nav-links">
+                <button class="nav-link active" onclick="alternarAba('home', this)">Início</button>
+                <button class="nav-link" onclick="alternarAba('produtos', this)">Cardápio</button>
+                <button class="nav-link" onclick="alternarAba('feedbacks', this)">Mural</button>
+                <button class="nav-link" onclick="alternarAba('sobre', this)">História</button>
+            </div>
         </div>
     </nav>
 
-    <div class="global-delivery-alert">
-        <span>📍 <strong>AVISO:</strong> Operamos exclusivamente via <strong>retirada agendada</strong>.</span>
-    </div>
+    <main class="main-content">
 
-    <main class="content-wrapper">
-
-        <section id="aba-home" class="tab-section active" data-emoji="🧑‍🍳" data-boas-vindas="Olá! Seja muito bem-vindo(a)! Fique à vontade para babar no nosso cardápio! 🍫✨">
-            <div class="clean-hero">
-                <h3>A Experiência Definitiva em Brownies</h3>
-                <p class="hero-subtitle">Casquinha crocante, interior cremoso e ingredientes premium. A alta confeitaria pronta para o seu dia a dia ou para sua festa.</p>
-                <div class="divider"></div>
+        <!-- HOME -->
+        <section id="aba-home" class="tab-pane active">
+            <div class="hero-showcase">
+                <div class="hero-deco"></div>
+                <div class="hero-deco-2"></div>
+                <div class="hero-text">
+                    <span class="hero-label">🍫 Feito com amor, servido com sofisticação</span>
+                    <h2>O brownie que<br><em>você merece.</em></h2>
+                    <p>Processos artesanais rigorosos, chocolate nobre selecionado e uma casquinha inconfundível que derrete na boca. Uma experiência para os sentidos.</p>
+                    <button class="btn-cta" onclick="document.querySelectorAll('.nav-link')[1].click()">
+                        Explorar Cardápio
+                        <span>→</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="home-floating-grid">
-                <article class="floating-box"><div class="box-icon">✨</div><h4>Nossa Essência</h4><p>Ingredientes selecionados para o verdadeiro sabor do chocolate.</p></article>
-                <article class="floating-box"><div class="box-icon">🎉</div><h4>Para Festas</h4><p>Combos especiais de até 50 unidades para casamentos e aniversários.</p></article>
-                <article class="floating-box"><div class="box-icon">📍</div><h4>Retirada Local</h4><p>Suas delícias são retiradas diretamente em nossa cozinha.</p></article>
-                <article class="floating-box"><div class="box-icon">📱</div><h4>Atendimento</h4><p><strong>WhatsApp:</strong> +55 51 9115-6047<br>Atendimento humanizado.</p></article>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🍫</div>
+                    <h3>Chocolate Nobre</h3>
+                    <p>Blends premium com alto teor de cacau, selecionados com rigor para cada fornada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎨</div>
+                    <h3>100% Artesanal</h3>
+                    <p>Produção cuidadosa em pequenos lotes. Sem industrialização, sem atalhos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🚚</div>
+                    <h3>Retirada Agendada</h3>
+                    <p>Retire seu doce sempre fresquinho, impecável e com horário garantido.</p>
+                </div>
             </div>
         </section>
 
-        <section id="aba-produtos" class="tab-section" data-emoji="🤤" data-boas-vindas="As opções avulsas e combos pequenos estão aqui. Leve mais e pague menos! 🤎">
-            <div class="section-heading">
-                <h2>Cardápio Padrão</h2>
-                <p>Nossas receitas clássicas para adoçar o seu dia. Mais unidades = Mais economia.</p>
+        <!-- PRODUTOS -->
+        <section id="aba-produtos" class="tab-pane">
+            <div class="section-title">
+                <span class="subtitle">Menu Exclusivo</span>
+                <h2>Nossas Criações</h2>
+                <div class="section-divider"><span></span><i></i><span style="background:linear-gradient(90deg,var(--ouro),transparent)"></span></div>
             </div>
 
-            <div class="shop-layout">
-                <div class="menu-grid">
-                    
-                    <article class="menu-item-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-tradicional"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag">Linha Tradicional</span>
-                            <h4>Clássico (1 Unidade)</h4>
-                            <div class="price-row">
-                                <span class="price-value">R$ 7,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Clássico (1 un)', 7.00)">+ Carrinho</button>
+            <div class="menu-container">
+                <div class="menu-grid" id="menu-grid">
+
+                    <article class="product-card" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-brownie-simples"></div>
+                        <div class="product-body">
+                            <h3>Brownie Simples</h3>
+                            <p>O clássico absoluto com casquinha intensamente crocante e interior aveludado.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 7,00</span>
+                                <button onclick="adicionarAoCarrinho('BROWNIE SIMPLES', 7)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
-                    <article class="menu-item-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-tradicional"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag">Linha Tradicional</span>
-                            <h4>Dueto Clássico (2 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 0,50!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 13,50</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Clássico (2 un)', 13.50)">+ Carrinho</button>
+                    <article class="product-card" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-brownie-recheado"></div>
+                        <div class="product-body">
+                            <h3>Brownie Recheado</h3>
+                            <p>Camadas generosas de cremosidade equilibrada. Um contraste irresistível.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 9,00</span>
+                                <button onclick="adicionarAoCarrinho('BROWNIE RECHEADO', 9)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
-                    <article class="menu-item-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-tradicional"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag">Linha Tradicional</span>
-                            <h4>Trio Clássico (3 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 1,50!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 19,50</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Clássico (3 un)', 19.50)">+ Carrinho</button>
+                    <article class="product-card special" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-chocogol"></div>
+                        <div class="product-body">
+                            <h3>Brownie Chocogol</h3>
+                            <p>A receita exclusiva que se tornou a favorita absoluta da casa. Único e inesquecível.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 8,00</span>
+                                <button onclick="adicionarAoCarrinho('BROWNIE CHOCOGOL', 8)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
-                    <article class="menu-item-card premium-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-recheado"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag gold-tag">Linha Recheada</span>
-                            <h4>Premium Recheado (1 Unidade)</h4>
-                            <div class="price-row">
-                                <span class="price-value">R$ 9,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Premium Recheado (1 un)', 9.00)">+ Carrinho</button>
+                    <article class="product-card" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-duo"></div>
+                        <div class="product-body">
+                            <h3>O Duo Predileto</h3>
+                            <p>A união perfeita dos nossos melhores sabores em uma só experiência.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 13,00</span>
+                                <button onclick="adicionarAoCarrinho('O DUO PREDILETO', 13)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
-                    <article class="menu-item-card premium-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-recheado"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag gold-tag">Linha Recheada</span>
-                            <h4>Dueto Recheado (2 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 17,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Dueto Recheado (2 un)', 17.00)">+ Carrinho</button>
+                    <article class="product-card" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-quarteto"></div>
+                        <div class="product-body">
+                            <h3>Quarteto Brownie</h3>
+                            <p>Quatro unidades selecionadas, embaladas perfeitamente para presentes especiais.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 25,50</span>
+                                <button onclick="adicionarAoCarrinho('QUARTETO BROWNIE', 25.5)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
-                    <article class="menu-item-card premium-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image img-recheado"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag gold-tag">Linha Recheada</span>
-                            <h4>Trio Recheado (3 Unidades)</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 2,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 25,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Trio Recheado (3 un)', 25.00)">+ Carrinho</button>
+                    <article class="product-card" onmouseenter="mascoteFocaCard()" onmouseleave="mascoteReseta()">
+                        <div class="product-img img-love"></div>
+                        <div class="product-body">
+                            <h3>Dolce Amor</h3>
+                            <p>Finalização especial, feita com muito afeto e atenção a cada detalhe único.</p>
+                            <div class="product-footer">
+                                <span class="price">R$ 16,00</span>
+                                <button onclick="adicionarAoCarrinho('DOLCE AMOR', 16)">+ Adicionar</button>
                             </div>
                         </div>
                     </article>
 
                 </div>
 
-                <aside class="cart-sidebar">
-                    <h3>🛒 Seu Carrinho</h3>
-                    <div id="cart-items-container-1"><p class="empty-cart-text">O carrinho está vazio.</p></div>
-                    <div class="cart-total-row"><span>Total:</span><strong class="cart-total-display">R$ 0,00</strong></div>
-                    <button class="checkout-btn" onclick="finalizarPedidoWhatsApp()">🛒 Fechar Pedido</button>
+                <aside class="luxury-cart">
+                    <div class="cart-header-area">
+                        <span class="cart-header">🛒 Sacola</span>
+                        <span class="cart-count" id="cart-count" style="display:none">0</span>
+                    </div>
+                    <div class="cart-body">
+                        <div id="cart-list">
+                            <p class="empty-msg">Sua sacola está vazia...</p>
+                        </div>
+                    </div>
+                    <div class="cart-footer">
+                        <div class="total-line">
+                            <span>Total</span>
+                            <strong id="cart-total">R$ 0,00</strong>
+                        </div>
+                        <button class="btn-checkout" onclick="iniciarCheckout()">Confirmar Pedido</button>
+                    </div>
                 </aside>
             </div>
         </section>
 
-        <section id="aba-promocoes" class="tab-section" data-emoji="🤑" data-boas-vindas="Opa! Aqui é onde você economiza de verdade! Leve mais, pague menos! 📉💰">
-            <div class="section-heading">
-                <h2>Promoções & Combos para Festas</h2>
+        <!-- FEEDBACKS -->
+        <section id="aba-feedbacks" class="tab-pane">
+            <div class="section-title">
+                <span class="subtitle">Depoimentos</span>
+                <h2>O que dizem nossos clientes</h2>
+                <div class="section-divider"><span></span><i></i><span style="background:linear-gradient(90deg,var(--ouro),transparent)"></span></div>
             </div>
-            <div class="shop-layout">
-                <div class="menu-grid">
-                    
-                    <article class="promo-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header">Linha Tradicional</div>
-                        <div class="promo-body">
-                            <h4>Box Família (5 un)</h4>
-                            <div class="economia-badge">Economize R$ 4,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 31,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Tradicional (5 un)', 31.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header">Linha Tradicional</div>
-                        <div class="promo-body">
-                            <h4>Box Galera (10 un)</h4>
-                            <div class="economia-badge">Economize R$ 10,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 60,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Tradicional (10 un)', 60.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header">Linha Tradicional</div>
-                        <div class="promo-body">
-                            <h4>Box Eventos (20 un)</h4>
-                            <div class="economia-badge">Economize R$ 25,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 115,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Tradicional (20 un)', 115.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card premium-promo-card" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header mega-header">👑 FESTA (TRADICIONAL)</div>
-                        <div class="promo-body">
-                            <h4>Mega Box Festa (50 un)</h4>
-                            <div class="economia-badge pulse-badge">Economize R$ 85,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 265,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Tradicional (50 un)', 265.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card recheado-border" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header recheado-header">Linha Recheada</div>
-                        <div class="promo-body">
-                            <h4>Box Família Recheado (5 un)</h4>
-                            <div class="economia-badge">Economize R$ 5,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 40,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Família Recheado (5 un)', 40.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card recheado-border" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header recheado-header">Linha Recheada</div>
-                        <div class="promo-body">
-                            <h4>Box Galera Recheado (10 un)</h4>
-                            <div class="economia-badge">Economize R$ 15,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 75,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Galera Recheado (10 un)', 75.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card recheado-border" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header recheado-header">Linha Recheada</div>
-                        <div class="promo-body">
-                            <h4>Box Eventos Recheado (20 un)</h4>
-                            <div class="economia-badge">Economize R$ 40,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 140,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Box Eventos Recheado (20 un)', 140.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="promo-card premium-promo-card recheado-border" onmouseenter="mascoteAnimaHover()" onmouseleave="mascoteResetaHover()">
-                        <div class="promo-header mega-header recheado-header">👑 FESTA (RECHEADO)</div>
-                        <div class="promo-body">
-                            <h4>Mega Box Festa Recheado (50 un)</h4>
-                            <div class="economia-badge pulse-badge">Economize R$ 120,00!</div>
-                            <div class="price-row">
-                                <div class="price-col"><span class="price-value">R$ 330,00</span></div>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Mega Box Festa Recheado (50 un)', 330.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
-
-                <aside class="cart-sidebar">
-                    <h3>🛒 Seu Carrinho</h3>
-                    <div id="cart-items-container-2"><p class="empty-cart-text">O carrinho está vazio.</p></div>
-                    <div class="cart-total-row"><span>Total:</span><strong class="cart-total-display">R$ 0,00</strong></div>
-                    <button class="checkout-btn" onclick="finalizarPedidoWhatsApp()">🛒 Fechar Pedido</button>
-                </aside>
-            </div>
-        </section>
-
-        <section id="aba-eventos" class="tab-section" data-emoji="🎉" data-boas-vindas="As edições mais pedidas voltaram! Passe o mouse neles pra ver o que eu acho... 👀🔥">
-            <div class="section-heading"><h2>Edições Especiais: Namorados & Copa</h2></div>
-            <div class="shop-layout">
-                <div class="menu-grid">
-                    
-                    <article class="menu-item-card love-card" onmouseenter="mascoteZoeira('Comprando um só pro Dia dos Namorados? O amor próprio é tudo... ou só tá encalhado mesmo! 🤣💔', '🕵️‍♂️')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image love-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag love-tag">Namorados (1 un)</span>
-                            <h4>Amor Individual</h4>
-                            <div class="price-row">
-                                <span class="price-value">R$ 8,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Individual (1un)', 8.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card love-card" onmouseenter="mascoteZoeira('Dueto? Aí sim! Vai dividir o brownie e quem sabe mais alguma coisa hoje à noite... 😏🍷', '😏')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image love-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag love-tag">Namorados (2 un)</span>
-                            <h4>Dueto Apaixonado</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 15,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Dueto (2un)', 15.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card love-card" onmouseenter="mascoteZoeira('Cinco brownies? Ih... fez besteira e tá tentando comprar o perdão, né? Boa sorte! 🤣💐', '😬')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image love-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag love-tag">Namorados (5 un)</span>
-                            <h4>Bouquet de Brownies</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 4,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 36,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Bouquet (5un)', 36.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card love-card" onmouseenter="mascoteZoeira('Dez brownies românticos? Ou você vai pedir em casamento, ou tem dois(duas) namorados(as)! 👀💍', '😳')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image love-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag love-tag">Namorados (10 un)</span>
-                            <h4>Caixa Romântica</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 12,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 68,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Caixa (10un)', 68.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card love-card" onmouseenter="mascoteZoeira('20 brownies pros namorados?! Isso não é um encontro, é uma suruba romântica! 🔥🌚', '🔥')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image love-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag love-tag">Namorados (20 un)</span>
-                            <h4>Festa dos Apaixonados</h4>
-                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 30,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 130,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Namorados Festa (20un)', 130.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card cup-card" onmouseenter="mascoteZoeira('Um só pra curar o trauma do 7x1! Come logo antes que a Alemanha faça outro gol! 🇧🇷😭', '😭')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image cup-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag cup-tag">Copa (1 un)</span>
-                            <h4>Chocogol Canarinho</h4>
-                            <div class="price-row">
-                                <span class="price-value">R$ 8,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Canarinho (1un)', 8.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card cup-card" onmouseenter="mascoteZoeira('Dois brownies pra dividir no intervalo... se o juiz não roubar da gente de novo! 🤬📺', '🤬')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image cup-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag cup-tag">Copa (2 un)</span>
-                            <h4>Dueto Torcida</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 1,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 15,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Dueto (2un)', 15.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card cup-card" onmouseenter="mascoteZoeira('Goleada de brownie pra compensar aquele nosso centroavante perna de pau que não faz gol! ⚽🤦‍♂️', '🤦‍♂️')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image cup-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag cup-tag">Copa (5 un)</span>
-                            <h4>Combo Goleada</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 4,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 36,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Goleada (5un)', 36.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card cup-card" onmouseenter="mascoteZoeira('10 brownies pra comer de ansiedade esperando o VAR analisar o impedimento! Haja coração! 💔📺', '😰')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image cup-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag cup-tag">Copa (10 un)</span>
-                            <h4>Caixa Artilheiro</h4>
-                            <div class="economia-badge badge-pequeno">Economize R$ 12,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 68,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Artilheiro (10un)', 68.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="menu-item-card cup-card" onmouseenter="mascoteZoeira('20 brownies da Copa?! Amigo, se o Hexa não vier com essa oferenda, eu mudo de país! 🏆🇧🇷', '🛐')" onmouseleave="mascoteResetaHover()">
-                        <div class="menu-item-image cup-brownie-img"></div>
-                        <div class="menu-item-info">
-                            <span class="product-tag cup-tag">Copa (20 un)</span>
-                            <h4>Festa do Hexa</h4>
-                            <div class="economia-badge badge-pequeno pulse-badge">Economize R$ 30,00!</div>
-                            <div class="price-row">
-                                <span class="price-value">R$ 130,00</span>
-                                <button class="add-to-cart-btn" onclick="adicionarAoCarrinho('Copa Hexa (20un)', 130.00)">+ Carrinho</button>
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
-
-                <aside class="cart-sidebar">
-                    <h3>🛒 Seu Carrinho</h3>
-                    <div id="cart-items-container-3"><p class="empty-cart-text">O carrinho está vazio.</p></div>
-                    <div class="cart-total-row"><span>Total:</span><strong class="cart-total-display">R$ 0,00</strong></div>
-                    <button class="checkout-btn" onclick="finalizarPedidoWhatsApp()">🛒 Fechar Pedido</button>
-                </aside>
-            </div>
-        </section>
-
-        <section id="aba-feedbacks" class="tab-section" data-emoji="💌" data-boas-vindas="Sua opinião é o ingrediente secreto da nossa receita! Conta pra gente o que achou! ✨">
-            <div class="section-heading">
-                <h2>Avaliações e Feedbacks</h2>
-                <p>Nos ajude a melhorar ou deixe um recadinho carinhoso para a nossa equipe!</p>
-            </div>
-            
-            <div class="feedback-container">
-                <div class="feedback-form-box">
-                    <h3>Deixe sua avaliação</h3>
-                    <form id="feedback-form" onsubmit="enviarFeedback(event)">
-                        <input type="text" id="feed-nome" placeholder="Seu Nome" required>
-                        <select id="feed-nota" required>
-                            <option value="" disabled selected>Que nota você dá?</option>
-                            <option value="5">⭐⭐⭐⭐⭐ - Perfeito, derrete na boca!</option>
-                            <option value="4">⭐⭐⭐⭐ - Muito Bom, recomendo</option>
-                            <option value="3">⭐⭐⭐ - Bom, mas pode melhorar</option>
-                            <option value="2">⭐⭐ - Não gostei muito</option>
-                            <option value="1">⭐ - Decepcionante</option>
+            <div class="feedback-layout">
+                <div class="feedback-form">
+                    <h3>Compartilhe sua Experiência</h3>
+                    <form onsubmit="enviarFeedback(event)">
+                        <input type="text" id="feed-nome" placeholder="Seu nome" required>
+                        <select id="feed-nota">
+                            <option value="5">⭐⭐⭐⭐⭐ Inesquecível!</option>
+                            <option value="4">⭐⭐⭐⭐ Excelente</option>
+                            <option value="3">⭐⭐⭐ Muito bom</option>
                         </select>
-                        <textarea id="feed-mensagem" placeholder="Conta pra gente como foi sua experiência..." rows="5" required></textarea>
-                        <button type="submit" class="auth-submit-btn">Enviar Feedback 🚀</button>
+                        <textarea id="feed-msg" placeholder="Conte-nos o que achou..." required></textarea>
+                        <button type="submit" class="btn-premium">Publicar Depoimento</button>
                     </form>
                 </div>
-
-                <div class="feedback-wall">
-                    <h3>Mural de Clientes</h3>
-                    <div id="lista-feedbacks">
-                        <div class="feedback-card">
-                            <div class="feed-stars">⭐⭐⭐⭐⭐</div>
-                            <p class="feed-text">"Melhor brownie da cidade! O recheado de doce de leite é surreal. Atendimento super rápido pelo WhatsApp também."</p>
-                            <span class="feed-author">- Maria Luiza S.</span>
-                        </div>
-                        <div class="feedback-card">
-                            <div class="feed-stars">⭐⭐⭐⭐⭐</div>
-                            <p class="feed-text">"Comprei a caixa de namorados e minha esposa amou. Salvou a minha pele haha! Muito capricho na embalagem."</p>
-                            <span class="feed-author">- João Pedro</span>
-                        </div>
-                        <div class="feedback-card">
-                            <div class="feed-stars">⭐⭐⭐⭐</div>
-                            <p class="feed-text">"O brownie é ótimo, mas cheguei um pouco atrasada para retirar e quase me perdi. Tirando isso, a comida é perfeita."</p>
-                            <span class="feed-author">- Fernanda Alves</span>
-                        </div>
+                <div class="feedback-wall" id="lista-feedbacks">
+                    <div class="feed-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Simplesmente o melhor brownie de Porto Alegre. A textura é perfeita e o atendimento é impecável."</p>
+                        <span>— Maria S.</span>
+                    </div>
+                    <div class="feed-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Presente perfeito para quem ama chocolate de verdade. Voltarei muitas vezes!"</p>
+                        <span>— Carlos R.</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="aba-sobre" class="tab-section" data-emoji="📖" data-boas-vindas="Vem conhecer a nossa jornada, nossos produtos e os nossos segredos! 📖✨">
-            <div class="section-heading">
-                <h2>A Nossa História</h2>
-                <p>Muito mais do que uma confeitaria, somos criadores de memórias.</p>
+        <!-- SOBRE -->
+        <section id="aba-sobre" class="tab-pane">
+            <div class="section-title">
+                <span class="subtitle">Conheça-nos</span>
+                <h2>Nossa História</h2>
+                <div class="section-divider"><span></span><i></i><span style="background:linear-gradient(90deg,var(--ouro),transparent)"></span></div>
             </div>
-            
-            <div class="about-complex-container">
-                <div class="about-sidebar">
-                    <button class="about-tab-btn active" onclick="mudarSlideSobre(0, this)">1. Nossa Origem</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(1, this)">2. Nossos Objetivos</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(2, this)">3. A Excelência</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(3, this)">4. O Cardápio</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(4, this)">5. O Mascote</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(5, this)">6. Como Comprar</button>
-                    <button class="about-tab-btn" onclick="mudarSlideSobre(6, this)">7. Gratidão</button>
+            <div class="about-luxury-container">
+                <div class="about-nav">
+                    <button class="active" onclick="mudarSlideSobre(0, this)">1. Nossa História</button>
+                    <button onclick="mudarSlideSobre(1, this)">2. Objetivos</button>
+                    <button onclick="mudarSlideSobre(2, this)">3. Excelência</button>
+                    <button onclick="mudarSlideSobre(3, this)">4. Ingredientes</button>
+                    <button onclick="mudarSlideSobre(4, this)">5. Artesanal</button>
+                    <button onclick="mudarSlideSobre(5, this)">6. Clientes</button>
+                    <button onclick="mudarSlideSobre(6, this)">7. O Mascote</button>
                 </div>
-                
-                <div class="about-content-area">
-                    <div class="about-slide active" id="slide-0">
-                        <h3>🌱 De onde viemos</h3>
-                        <p><strong>Quem Somos:</strong> A Dolce Brownie é uma confeitaria artesanal focada inteiramente em criar a experiência definitiva em chocolates e doces premium.</p>
-                        <p><strong>Como a empresa surgiu:</strong> A Dolce Brownie nasceu na cozinha de casa, quando cinco amigos começaram a testar receitas em busca do brownie perfeito. Depois de várias tentativas, encontramos a combinação ideal: casquinha crocante por fora e interior macio por dentro. O que começou como uma forma de presentear amigos logo virou nossa paixão e deu origem à marca, criada para levar sabor e carinho em cada brownie.</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-1">
-                        <h3>🎯 Nossos Objetivos</h3>
-                        <p>A Dolce Brownie tem como principal objetivo oferecer brownies artesanais de alta qualidade, preparados com ingredientes selecionados, muito cuidado e dedicação em cada etapa da produção.</p>
-                        <p>A empresa busca proporcionar aos clientes uma experiência diferenciada através de produtos saborosos, criativos e feitos com carinho, capazes de transformar momentos simples do dia em ocasiões mais especiais e felizes.</p>
-                        <p>Além de prezar pela qualidade dos brownies, a Dolce Brownie também procura oferecer um atendimento acolhedor e de confiança, valorizando a satisfação dos clientes e buscando sempre atender às suas expectativas.</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-2">
-                        <h3>✨ A Excelência nos Recheados</h3>
-                        <p>A Dolce Brownie destaca-se pela excelência na produção artesanal de brownies recheados, unindo qualidade, sabor e sofisticação em cada detalhe. Nosso compromisso é oferecer produtos elaborados com ingredientes selecionados, proporcionando uma experiência única e marcante aos clientes.</p>
-                        <p>Além do cuidado com o preparo, valorizamos a apresentação e a identidade da marca, transmitindo carinho, dedicação e autenticidade em cada produto. Dessa forma, buscamos transformar momentos simples em experiências especiais e memoráveis.</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-3">
-                        <h3>🍫 O Que Sai do Nosso Forno</h3>
-                        <p><strong>O que vendemos & Explicação dos produtos:</strong> Somos especialistas em brownies! Vendemos nossa <em>Linha Tradicional</em> (o clássico atemporal) e a <em>Linha Recheada</em> (com coberturas e recheios intensos). Nossos formatos vão desde porções individuais até Mega Boxes com 50 unidades, ideais para festas. E claro, lançamos linhas temáticas sazonais como as amadas coleções de Dia dos Namorados e Copa.</p>
-                        <p><strong>Diferenciais da Empresa:</strong> Não utilizamos atalhos. Nosso maior diferencial é a pureza dos ingredientes: usamos cacau nobre e manteiga de verdade, sem uso de conservantes artificiais. O assamento é milimetricamente calculado para manter a textura perfeita, e todos os doces são entregues frescos.</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-4">
-                        <h3>🧑‍🍳 O Dono da Cozinha</h3>
-                        <p><strong>Quem é ele?</strong> Você já deve ter notado nosso Chef tagarela (o emoji 🧑‍🍳) flutuando no canto da tela enquanto você escolhe seus doces!</p>
-                        <p><strong>O Significado:</strong> Ele representa a alma da nossa equipe e do nosso atendimento. Ele é descontraído, acolhedor e fala a verdade de forma leve (ele adora zoar seus pedidos no carrinho!). O mascote existe para lembrar que, por trás deste site, existem seres humanos dedicados e felizes fazendo a comida que vai chegar até você.</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-5">
-                        <h3>💳 Atendimento e Pagamentos</h3>
-                        <p><strong>Plataformas de Atendimento:</strong> Todo o nosso contato para finalização de orçamentos, pedidos especiais e acompanhamento das encomendas é centralizado via <strong>WhatsApp</strong>. Essa foi a forma que encontramos para garantir um atendimento rápido, humano e sem burocracias.</p>
-                        <p><strong>Formas de Pagamento:</strong> Buscamos máxima facilidade para você. Aceitamos:<br>
-                        • <strong>Pix</strong> (nossa modalidade preferida pela agilidade).<br>
-                        • <strong>Cartões de Crédito e Débito</strong>.<br>
-                        • <strong>Dinheiro em espécie</strong> (pago diretamente no momento da retirada).</p>
-                    </div>
-
-                    <div class="about-slide" id="slide-6">
-                        <h3>💖 Muito Obrigado!</h3>
-                        <p>Construir a Dolce Brownie exigiu centenas de testes, noites em claro e fornalhas cheias. Mas tudo isso ganha sentido quando vemos o seu sorriso na hora da retirada e as mensagens maravilhosas que recebemos pós-festa.</p>
-                        <p><strong>Encerramento:</strong> Agradecemos do fundo do coração por apoiar o nosso trabalho artesanal. Cada caixa que sai daqui é um pedaço do nosso sonho. Volte sempre, a nossa cozinha estará sempre de portas abertas (e fornos aquecidos) para você!</p>
+                <div class="about-content" id="about-content">
+                    <div class="slide active">
+                        <h3>O Início de um Sonho</h3>
+                        <p>A Dolce Brownie nasceu de uma verdadeira paixão pela confeitaria e pelo desejo de criar algo mais do que um simples doce. Nossa jornada começou em uma cozinha pequena, testando receitas incansavelmente até alcançarmos a textura perfeita.</p>
                     </div>
                 </div>
             </div>
@@ -537,10 +294,12 @@
 
     </main>
 
+    <!-- MASCOTE -->
     <div id="mascote-container">
-        <div id="balao-fala">Olá! Seja muito bem-vindo(a)! Fique à vontade para babar no nosso cardápio! 🍫✨</div>
-        <div id="mascote-wrapper">
-            <div id="mascote-emoji">🧑‍🍳</div>
+        <div id="fala-balao">Olá! Que tal um brownie dos deuses hoje? 😋</div>
+        <div id="mascote-corpo">
+            <img id="mascote-render" src="" alt="Mascote Dolce Brownie">
+            <span id="mascote-fallback" style="display:none; font-size:2.8rem; width:100%; height:100%; align-items:center; justify-content:center; background:var(--creme-dark);">🍫</span>
         </div>
     </div>
 
